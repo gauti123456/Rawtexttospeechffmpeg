@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raw Text to Speech Audio File Online</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">
+            Raw Text to Speech Audio File Online
+        </h1>
+        <form id="form">
+            <div class="form-group">
+                <label for="text">Raw Text:</label>
+                <textarea class="form-control" id="text" cols="30" rows="10"></textarea>
+            </div>
+          <div class="form-group">
+                <label for="format">Format:</label>
+                <select class="form-control" name="format" id="format">
+                    <option value="mp3" selected>mp3</option>
+                    <option value="wav">wav</option>
+                    <option value="m4a">m4a</option>
+                    <option value="flac">flac</option>
+                    <option value="wma">wma</option>
+                    <option value="aac">aac</option>
+                </select>
+            </div>
+        <div class="form-group">
+          <button id="button" class="btn btn-block btn-danger">
+            Download Audio File
+          </button>
+        </div>
+      </form>
+      <br /><br />
+    </div>
+    </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    var files;
+    $("#form").on("submit", function (e) {
+      e.preventDefault();
+
+       let data = {
+            text:$("#text").val(),
+            format:$("#format").val()
+        }
+
+      $.ajax({
+        
+        url: "/texttospeech",
+              type: "POST",
+              data:JSON.stringify(data),
+              contentType: "application/json",
+              dataType: "json",
+              success: function (data) {
+                window.open("/download?path=" + data.path);
+                $("#button").text("Upload File");
+                $("#button").prop("disabled", false);
+                location.reload();
+              },
+            });
+    });
+
+    
+</script>
+</html>
